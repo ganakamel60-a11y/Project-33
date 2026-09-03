@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ومضة | فكرة صغيرة، أثر كبير</title>
+  <meta name="description" content="ومضة — موقع بسيط يعرض اقتباسات ملهمة، مع إمكانية توليد اقتباس جديد ونسخه بضغطة زر.">
+
+  <meta property="og:title" content="ومضة | فكرة صغيرة، أثر كبير">
+  <meta property="og:description" content="اقتباسات ملهمة، اقتباس جديد كل ضغطة زر.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23263238%22/><text x=%2250%22 y=%2266%22 font-size=%2255%22 text-anchor=%22middle%22 fill=%22%23fffaf0%22 font-family=%22Arial%22>و</text></svg>">
+
+  <style>
+    :root {
+      --primary-color: #8f3d56;
+      --dark-color: #263238;
+      --light-color: #fffaf0;
+      --border-color: #eadfcd;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: #f8f0df;
+      color: var(--dark-color);
+      font-family: Arial, sans-serif;
+      transition: background-color 0.5s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      color: #fffaf0;
+      background: var(--dark-color);
+      font-size: 22px;
+    }
+
+    .subtitle {
+      color: #68727a;
+      font-size: 14px;
+    }
+
+    .quote-card {
+      position: relative;
+      overflow: hidden;
+      padding: 55px;
+      border: 1px solid var(--border-color);
+      border-radius: 25px;
+      background: var(--light-color);
+      box-shadow: 0 20px 50px rgba(38, 50, 56, 0.12);
+    }
+
+    .quote-card::before {
+      content: "“";
+      position: absolute;
+      top: -20px;
+      left: 25px;
+      color: #d9bd73;
+      font-family: Georgia, serif;
+      font-size: 180px;
+      line-height: 1;
+      opacity: 0.45;
+    }
+
+    .label {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      color: #68727a;
+      font-size: 14px;
+    }
+
+    .label-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary-color);
+    }
+
+    blockquote {
+      position: relative;
+      z-index: 1;
+    }
+
+    #quote {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 6vw, 60px);
+      line-height: 1.4;
+      text-wrap: balance;
+    }
+
+    #author {
+      display: block;
+      margin-top: 25px;
+      color: var(--primary-color);
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #author::before {
+      content: "•";
+      margin-left: 10px;
+      color: #d9bd73;
+    }
+
+    .buttons {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 12px;
+      margin-top: 45px;
+    }
+
+    button {
+      min-height: 50px;
+      padding: 0 22px;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #d9bd73;
+      outline-offset: 3px;
+    }
+
+    .new-quote {
+      flex: 1;
+      color: #fffaf0;
+      background: var(--primary-color);
+    }
+
+    .new-quote:hover {
+      filter: brightness(0.9);
+    }
+
+    .copy-quote {
+      color: var(--dark-color);
+      background: #f0e6d4;
+    }
+
+    .copy-quote:hover {
+      background: #e6d9c3;
+    }
+
+    .copy-quote.copied {
+      color: #176b3a;
+      background: #d9f2df;
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 18px;
+      color: #68727a;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+
+      .subtitle {
+        display: none;
+      }
+
+      .quote-card {
+        padding: 30px 22px 22px;
+        border-radius: 20px;
+      }
+
+      .quote-card::before {
+        left: 5px;
+        font-size: 130px;
+      }
+
+      #quote {
+        font-size: clamp(30px, 10vw, 45px);
+      }
+
+      .buttons {
+        flex-direction: column;
+        margin-top: 32px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">و</span>
+        ومضة
+      </div>
+
+      <p class="subtitle">فكرة صغيرة، أثر كبير</p>
+    </header>
+
+    <section class="quote-card">
+      <div class="label">
+        <span class="label-dot"></span>
+        <span id="counter">ومضة اليوم</span>
+      </div>
+
+      <blockquote>
+        <p id="quote">
+          الطريقة الوحيدة لإنجاز عمل عظيم، هي أن تحب ما تفعله.
+        </p>
+
+        <cite id="author">ستيف جوبز</cite>
+      </blockquote>
+
+      <div class="buttons">
+        <button class="new-quote" id="newQuote">
+          مقولة جديدة ↗
+        </button>
+
+        <button class="copy-quote" id="copyQuote">
+          نسخ المقولة
+        </button>
+      </div>
+
+      <p class="message" id="message">
+        اضغط لتجد ومضة مختلفة
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const quotes = [
+      {
+        text: "الطريقة الوحيدة لإنجاز عمل عظيم، هي أن تحب ما تفعله.",
+        author: "ستيف جوبز"
+      },
+      {
+        text: "ما تفعله كل يوم أهم بكثير مما تفعله من حين لآخر.",
+        author: "غريتشن روبن"
+      },
+      {
+        text: "لا تنتظر الإلهام، ابدأ وسيأتيك أثناء العمل.",
+        author: "جاك لندن"
+      },
+      {
+        text: "في منتصف الصعوبة تكمن الفرصة.",
+        author: "ألبرت أينشتاين"
+      },
+      {
+        text: "البدايات الصغيرة تصنع نهايات عظيمة.",
+        author: "روبين شارما"
+      },
+      {
+        text: "كن أنت التغيير الذي تريد أن تراه في العالم.",
+        author: "المهاتما غاندي"
+      },
+      {
+        text: "النجاح ليس نهائياً، والفشل ليس قاتلاً، الشجاعة للاستمرار هي ما يهم.",
+        author: "وينستون تشرشل"
+      },
+      {
+        text: "كل إنجاز عظيم بدأ بفكرة، ثم بخطوة واحدة.",
+        author: "مقولة شائعة"
+      }
+    ];
+
+    const colors = [
+      {
+        background: "#f8f0df",
+        primary: "#8f3d56"
+      },
+      {
+        background: "#edf5ef",
+        primary: "#39705c"
+      },
+      {
+        background: "#eef3fb",
+        primary: "#416a9c"
+      },
+      {
+        background: "#f6eef7",
+        primary: "#814d86"
+      }
+    ];
+
+    let currentQuoteIndex = 0;
+    let quoteNumber = 1;
+
+    const quoteElement = document.getElementById("quote");
+    const authorElement = document.getElementById("author");
+    const counterElement = document.getElementById("counter");
+    const messageElement = document.getElementById("message");
+    const newQuoteButton = document.getElementById("newQuote");
+    const copyQuoteButton = document.getElementById("copyQuote");
+
+    function displayQuote(index) {
+      const selectedQuote = quotes[index];
+      const selectedColor = colors[index % colors.length];
+
+      quoteElement.textContent = selectedQuote.text;
+      authorElement.textContent = selectedQuote.author;
+
+      document.body.style.backgroundColor = selectedColor.background;
+      document.documentElement.style.setProperty(
+        "--primary-color",
+        selectedColor.primary
+      );
+
+      counterElement.textContent = `ومضة ${quoteNumber}`;
+      messageElement.textContent = "مقولة جديدة جاهزة";
+    }
+
+    newQuoteButton.addEventListener("click", function () {
+      let nextIndex;
+
+      do {
+        nextIndex = Math.floor(Math.random() * quotes.length);
+      } while (nextIndex === currentQuoteIndex && quotes.length > 1);
+
+      currentQuoteIndex = nextIndex;
+      quoteNumber++;
+
+      displayQuote(currentQuoteIndex);
+    });
+
+    copyQuoteButton.addEventListener("click", async function () {
+      const fullQuote =
+        `${quoteElement.textContent} - ${authorElement.textContent}`;
+
+      try {
+        await navigator.clipboard.writeText(fullQuote);
+
+        copyQuoteButton.textContent = "تم النسخ ✓";
+        copyQuoteButton.classList.add("copied");
+        messageElement.textContent = "تم نسخ المقولة إلى الحافظة";
+
+        setTimeout(function () {
+          copyQuoteButton.textContent = "نسخ المقولة";
+          copyQuoteButton.classList.remove("copied");
+        }, 1800);
+      } catch (error) {
+        messageElement.textContent =
+          "لم نتمكن من النسخ، حددي النص وانسخيه يدوياً";
+      }
+    });
+
+    displayQuote(currentQuoteIndex);
+  </script>
+</body>
+</html>
